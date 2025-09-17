@@ -3,6 +3,7 @@ using Monopoly.Application.Ports;
 namespace Monopoly.Application.UseCases;
 
 public class RollDiceUseCase(IGameRepository repo, IUiEventBus ui)
+// constructor
 {
     public void Execute()
     {

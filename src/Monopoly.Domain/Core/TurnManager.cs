@@ -11,9 +11,13 @@ public class TurnManager
 
     public TurnManager(Board board, IDice dice, IDomainEventBus bus)
     {
-        _board = board; _dice = dice; _bus = bus;
+        _board = board;
+        _dice = dice;
+        _bus = bus;
     }
 
+    // Hàm RollDiceAndAdvance: Quay xúc xắc và di chuyển người chơi trên bảng. 
+    //roll -> di chuyển -> publish sự kiện PlayerMoved
     public (int sum, bool isDouble) RollDiceAndAdvance(Player player)
     {
         var (d1, d2, sum, isDouble) = _dice.Roll();
@@ -23,3 +27,5 @@ public class TurnManager
         return (sum, isDouble);
     }
 }
+
+

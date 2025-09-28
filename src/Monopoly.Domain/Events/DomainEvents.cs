@@ -60,4 +60,12 @@ namespace Monopoly.Domain.Events
             return copy;                 // trả về snapshot chỉ-đọc
         }
     }
+    public record LandUnownedProperty(Guid TileId, int Price) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public record RentDue(Guid PlayerId, Guid OwnerId, int Amount, Guid TileId) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }   
 }

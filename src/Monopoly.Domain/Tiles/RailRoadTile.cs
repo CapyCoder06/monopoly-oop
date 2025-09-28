@@ -4,28 +4,19 @@ using Monopoly.Domain.Events;
 using Monopoly.Domain.Strategy;
 
 namespace Monopoly.Domain.Tiles;
-
-// Ô bds
-public enum PropertyColor
+public class RailroadTile : Tile
 {
-    Brown, LightBlue, Pink, Orange, Red, Yellow, Green, DarkBlue
-}
-public class PropertyTile : Tile
-{
-    public int Price { get; } //readonly, vì giá không nên đổi giá trị <=> no set
+    public int BaseRent { get; } //readonly, vì giá không nên đổi giá trị <=> no set
     public Guid? OwnerId { get; set; }
-    public PropertyColor Color { get; set; }
-    public int BaseRent {get;}
+    public int Price { get;}
     public IRentStrategy rentStrategy;
-    public PropertyTile(int index, string name, PropertyColor color, int price, int baseRent, Guid? tileId = null)
+    public RailroadTile(int index, string name, int price, Guid? tileId = null, int baseRent = 0) 
         : base(index, name, tileId ?? Guid.NewGuid())
     {
-        Price = price;
-        Color = color;
         BaseRent = baseRent;
-        rentStrategy = new PropertyRentStrategy(BaseRent);
+        Price = price;
+        rentStrategy = new RailRoadRentStrategy();
     }
-    
     public override void OnLand(GameContext ctx, Player player, int lastDiceSum)
     {
         if (OwnerId == null)

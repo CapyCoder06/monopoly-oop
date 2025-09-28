@@ -1,4 +1,54 @@
 namespace Monopoly.Domain.Core;
+using Monopoly.Domain.Abstractions;
+using Monopoly.Domain.Tiles;
+using Monopoly.Domain.Events;      
+public sealed class GameContext
+{
+    public Board Board { get; }
+    public IDomainEventBus Bus { get; }
+    public GameContext(Board board, IDomainEventBus bus)
+    {
+        Board = board;
+        Bus = bus;
+    }
+    public bool OwnerHasFullColorSet(Guid OwnerId, PropertyColor color)
+    {
+        for (int i = 0; i < Board.Tiles.Count; i++)
+        {
+            var tile = Board.Tiles[i];
+            if (tile is PropertyTile propertyTile && propertyTile.Color == color)
+            {
+                if (propertyTile.OwnerId != OwnerId)
+                    return false;
+            }
+        }
+        return true;
+    }
 
-// Mốc 0: chỉ khoá tên class để Application/UseCase tham chiếu
-public class GameContext { }
+    public int CountOwnerRailroads(Guid OwnerId)
+    {
+        int count = 0;
+        for (int i = 0; i < Board.Tiles.Count; i++)
+        {
+            var tile = Board.Tiles[i];
+            if (tile is RailroadTile railroadTile && railroadTile.OwnerId == OwnerId)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    public int CountOwnerUtilities(Guid OwnerId)
+    {
+        int count = 0;
+        for (int i = 0; i < Board.Tiles.Count; i++)
+        {
+            var tile = Board.Tiles[i];
+            if (tile is UtilityTile utilityTile && utilityTile.OwnerId == OwnerId)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+}

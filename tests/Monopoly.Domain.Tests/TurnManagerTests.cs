@@ -17,7 +17,7 @@ public class TurnManagerTests
     [Fact]
     public void Roll_Moves_Player_And_Raises_PlayerMoved()
     {
-        var board = new Board(40);
+        var board = new Board(Enumerable.Repeat<Monopoly.Domain.Abstractions.Tile>(default!, 40).ToList());
         var dice  = new FakeDice(5);
         var bus   = new InMemoryDomainEventBus();
         var tm    = new TurnManager(board, dice, bus);

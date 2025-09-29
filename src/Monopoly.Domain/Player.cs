@@ -1,11 +1,15 @@
+using Monopoly.Domain.State;
+
 namespace Monopoly.Domain.Core;
 
 public class Player
 {
     public Guid Id { get; } = Guid.NewGuid();
     public string Name { get; }
-    public int Position { get; private set; }
+    public int Position { get; set; }
     public int Cash { get; private set; }
+    public IPlayerState CurrentState { get; set; } = new NormalState();
+    public int JailCard { get; private set; } = 0;
 
     public Player(string name, int startingCash = 1500)
     {
@@ -17,4 +21,16 @@ public class Player
     public void Move(int steps, int boardSize) => Position = (Position + steps) % boardSize;
     public void Pay(int amount) => Cash -= amount;
     public void Receive(int amount) => Cash += amount;
+    public bool TryDebit(int amount)
+    {
+        if (Cash < amount) return false;
+        Cash -= amount;
+        return true;
+    }
+    public bool TryConsumeJailCard()
+    {
+        if (JailCard < 1) return false;
+        JailCard--;
+        return true;
+    } 
 }

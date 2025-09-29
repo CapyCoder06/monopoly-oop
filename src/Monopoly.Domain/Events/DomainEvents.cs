@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Monopoly.Domain.Core;
 
 namespace Monopoly.Domain.Events
 {
@@ -67,5 +68,33 @@ namespace Monopoly.Domain.Events
     public record RentDue(Guid PlayerId, Guid OwnerId, int Amount, Guid TileId) : IDomainEvent
     {
         public DateTime OccurredAt { get; } = DateTime.UtcNow;
-    }   
+    }
+    //Jail
+    public record WentToJail(Guid PlayerId, int JailIndex) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public enum JailLeaveReason
+    {
+        RolledDouble,
+        UsedCard,
+        BailPaid,
+        AfterThreeTurns
+    }
+    public record LeftJail(Guid PlayerId, JailLeaveReason Reason) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public record BailPaid(Guid PlayerId, int Amount) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public record UsedJailCard(Guid PlayerId) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public record RolledDoubleToLeave(Guid PlayerId, int sumdice) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
 }

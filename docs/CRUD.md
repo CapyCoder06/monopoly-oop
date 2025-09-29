@@ -118,9 +118,9 @@ State/
 
 IPlayerState, NormalState, InJailState, BankruptState
 
-Câu hỏi: Tránh if/else theo trạng thái khắp nơi thế nào?
+- Câu hỏi: Tránh if/else theo trạng thái khắp nơi thế nào?
 
-Giải quyết: State pattern; mỗi state quyết định hành vi hợp lệ, có thể Publish event khi chuyển trạng thái.
+- Giải quyết: State pattern; mỗi state quyết định hành vi hợp lệ, có thể Publish event khi chuyển trạng thái.
 
 Domain tổng kết: Luật nằm trọn Domain; event là tạm thời nhờ DequeueAll() → xử lý xong biến mất, không persist.
 

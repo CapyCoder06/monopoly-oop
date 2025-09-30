@@ -9,21 +9,56 @@ public class RollDiceUseCase
     private readonly IGameRepository _repo;
     private readonly IUiEventBus _ui;
     private readonly TurnManager _turnManager;
-    public RollDiceUseCase(IGameRepository repo, IUiEventBus ui, TurnManager turnManager)
+    private readonly IDomainEventBus _domainEventBus;
+    public RollDiceUseCase(IGameRepository repo, IUiEventBus ui, TurnManager turnManager, IDomainEventBus domainEventBus)
     {
         _repo = repo;
         _ui = ui;
         _turnManager = turnManager;
+        _domainEventBus = domainEventBus;
     }
 
     public void Execute(string slot)
     {
-        var snapshot = _repo.Load(slot);
-        if (snapshot is null)
-            throw new InvalidOperationException($"No game found in slot {slot}");
+        var snapshot = _repo.Load(slot) ?? throw new InvalidOperationException($"No game found in slot {slot}");
         var player = snapshot.Players[snapshot.CurrentPlayerIndex];
         var (sum, isDouble) = _turnManager.RollDiceAndAdvance(player);
+        if (player.State is InJailState jailState)
+            {
+                if (isDouble)
+                {
+                    player.State = new NormalState();
+                    player.Move(sum, snapshot.board.Tiles.Count);
+                    _ui.Publish(new ToastVM($"{player.Name} rolled doubles and left jail!", "success"));
+                }
+                else
+                {
+                    jailState.TurnsLeft--;
+                    if (jailState.TurnsLeft == 0)
+                    {
+                        if (player.Cash >= 50)
+                        {
+                            player.Pay(50);
+                            player.State = new NormalState();
+                            _ui.Publish(new ToastVM($"{player.Name} auto-paid bail and left jail", "info"));
+                        }
+                        else
+                        {
+                            
+                        }
+                    }
+                    else
+                    {
+                        _ui.Publish(new ToastVM($"{player.Name} failed to roll doubles. Turns left in jail: {jailState.TurnsLeft}", "warn"));
+                    }
+                }
+                _repo.Save(snapshot);
+                return; 
+        }
         var newSnapshot = new GameSnapshot(Slot: slot,Players: snapshot.Players,CurrentPlayerIndex: snapshot.CurrentPlayerIndex);
+        var ctx = new GameContext(newSnapshot.board, _domainEventBus);
+        var tile = newSnapshot.board.Tiles[player.Position];
+        tile.OnLand(ctx, player, sum);
         _repo.Save(newSnapshot);
         _ui.Publish(new PlayerMovedUiEvent(player.Id,player.Position,sum,isDouble));
     }

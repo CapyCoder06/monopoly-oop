@@ -18,14 +18,20 @@ public class NewGameResponse
 }
 
 //repo: dependency (kho lưu trữ game)
-public class NewGameUseCase(IGameRepository repo)
+public class NewGameUseCase
 {
+    private readonly IGameRepository _repo;
+
+    public NewGameUseCase(IGameRepository repo)
+    {
+        _repo = repo;
+    }
     public NewGameResponse Execute(NewGameRequest req)
     {
         //Duyệt qua danh sách tên người chơi. Tạo Player mới với tên n và tiền khởi điểm req.StartingCash. Trả về List<Player> players
         var players = req.PlayerNames.Select(n => new Player(n, req.StartingCash)).ToList();
         //Tạo ảnh chụp trạng thái game với mã game, danh sách người chơi, lượt chơi ban đầu và lưu vào repository(repo.Save)
-        repo.Save(new GameSnapshot(req.Slot, players, 0));
+        _repo.Save(new GameSnapshot(req.Slot, players, 0));
         //Trả về số người chơi trong game mới
         return new NewGameResponse { PlayerCount = players.Count };
     }

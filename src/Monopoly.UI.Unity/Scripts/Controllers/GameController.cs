@@ -1,5 +1,7 @@
+using Monopoly.Application.DTO;
 using Monopoly.Application.Ports;
 using Monopoly.Application.UseCases;
+using Monopoly.Domain.Core;
 
 namespace Monopoly.UI.Unity.Scripts.Controllers;
 
@@ -7,11 +9,12 @@ public class GameController
 {
     // readonly: file chỉ xuất dữ liệu, không nhập.
     private readonly RollDiceUseCase _roll;
+    private string _currentSlot;
 
-    public GameController(IGameRepository repo, IUiEventBus ui)
+    public GameController(IGameRepository repo, IUiEventBus ui, TurnManager turnManager)
     {
-        _roll = new RollDiceUseCase(repo, ui);
+        _roll = new RollDiceUseCase(repo, ui, turnManager);
     }
-
-    public void OnRollButtonClicked() => _roll.Execute();
+    public void SetSlot(string slot) => _currentSlot = slot;
+    public void OnRollButtonClicked() => _roll.Execute(_currentSlot);
 }

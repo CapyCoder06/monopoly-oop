@@ -1,0 +1,158 @@
+using UnityEngine;
+using UnityEditor;
+using System.IO;
+
+public class ProjectStructureReorganizer : EditorWindow
+{
+    [MenuItem("Tools/Fix Project Structure")]
+    public static void ShowWindow()
+    {
+        GetWindow<ProjectStructureReorganizer>("Fix Project Structure");
+    }
+
+    void OnGUI()
+    {
+        GUILayout.Label("Unity Project Structure Fixer", EditorStyles.boldLabel);
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("1. Create Standard Folders"))
+        {
+            CreateStandardFolders();
+        }
+
+        if (GUILayout.Button("2. Move Scripts from src to Assets/Scripts"))
+        {
+            MoveScriptsFromSrc();
+        }
+
+        if (GUILayout.Button("3. Clean Broken Assemblies"))
+        {
+            CleanBrokenAssemblies();
+        }
+
+        if (GUILayout.Button("4. Refresh Assets"))
+        {
+            AssetDatabase.Refresh();
+            Debug.Log("Assets refreshed!");
+        }
+
+        GUILayout.Space(10);
+        GUILayout.Label("Steps to fix your project:", EditorStyles.boldLabel);
+        GUILayout.Label("1. Run all buttons above in order");
+        GUILayout.Label("2. Close Unity");
+        GUILayout.Label("3. Delete Library folder");
+        GUILayout.Label("4. Reopen Unity project");
+    }
+
+    void CreateStandardFolders()
+    {
+        string[] folders = {
+            "Assets/Scripts",
+            "Assets/Scripts/Controllers",
+            "Assets/Scripts/UI",
+            "Assets/Scripts/Game",
+            "Assets/Scripts/Managers",
+            "Assets/Prefabs",
+            "Assets/Materials",
+            "Assets/Textures",
+            "Assets/Audio"
+        };
+
+        foreach (string folder in folders)
+        {
+            if (!AssetDatabase.IsValidFolder(folder))
+            {
+                string parentFolder = Path.GetDirectoryName(folder);
+                string newFolderName = Path.GetFileName(folder);
+                AssetDatabase.CreateFolder(parentFolder, newFolderName);
+                Debug.Log($"Created folder: {folder}");
+            }
+        }
+
+        AssetDatabase.Refresh();
+    }
+
+    void MoveScriptsFromSrc()
+    {
+        string srcPath = Path.Combine(Application.dataPath, "../src");
+        string scriptsPath = Path.Combine(Application.dataPath, "Scripts");
+
+        if (Directory.Exists(srcPath))
+        {
+            Debug.Log("Found src folder. Moving scripts...");
+            
+            // Di chuyển tất cả file .cs từ src sang Scripts
+            MoveAllCSharpFiles(srcPath, scriptsPath);
+            
+            Debug.Log("Scripts moved. You can now delete the src folder manually.");
+        }
+        else
+        {
+            Debug.Log("No src folder found.");
+        }
+
+        AssetDatabase.Refresh();
+    }
+
+    void MoveAllCSharpFiles(string sourceDir, string targetDir)
+    {
+        if (!Directory.Exists(targetDir))
+            Directory.CreateDirectory(targetDir);
+
+        // Di chuyển tất cả file .cs
+        string[] files = Directory.GetFiles(sourceDir, "*.cs", SearchOption.AllDirectories);
+        
+        foreach (string file in files)
+        {
+            string fileName = Path.GetFileName(file);
+            string targetFile = Path.Combine(targetDir, fileName);
+            
+            // Tránh ghi đè file
+            int counter = 1;
+            while (File.Exists(targetFile))
+            {
+                string nameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+                string extension = Path.GetExtension(fileName);
+                targetFile = Path.Combine(targetDir, $"{nameWithoutExt}_{counter}{extension}");
+                counter++;
+            }
+            
+            File.Move(file, targetFile);
+            Debug.Log($"Moved: {fileName} to Scripts folder");
+        }
+    }
+
+    void CleanBrokenAssemblies()
+    {
+        string pluginsPath = Path.Combine(Application.dataPath, "Plugins");
+        
+        if (Directory.Exists(pluginsPath))
+        {
+            // Tìm và xóa các DLL bị lỗi
+            string[] brokenDlls = {
+                "Monopoly.Application.dll",
+                "Monopoly.Domain.dll", 
+                "Monopoly.UI.Unity.dll"
+            };
+
+            foreach (string dll in brokenDlls)
+            {
+                string dllPath = Path.Combine(pluginsPath, dll);
+                if (File.Exists(dllPath))
+                {
+                    File.Delete(dllPath);
+                    Debug.Log($"Deleted broken DLL: {dll}");
+                }
+
+                // Xóa meta file
+                string metaPath = dllPath + ".meta";
+                if (File.Exists(metaPath))
+                {
+                    File.Delete(metaPath);
+                }
+            }
+        }
+
+        AssetDatabase.Refresh();
+    }
+}

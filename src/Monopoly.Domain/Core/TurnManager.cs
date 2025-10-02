@@ -25,7 +25,7 @@ public class TurnManager
 
     // Hàm RollDiceAndAdvance: Quay xúc xắc và di chuyển người chơi trên bảng. 
     //roll -> di chuyển -> publish sự kiện PlayerMoved
-    public (int sum, bool isDouble) RollDiceAndAdvance(Player player, GameContext ctx, JailReleaseAction action = JailReleaseAction.None)
+    public (int sum, bool isDouble, int d1, int d2) RollDiceAndAdvance(Player player, GameContext ctx, JailReleaseAction action = JailReleaseAction.None)
     {
         var (d1, d2, sum, isDouble) = _dice.Roll();
 
@@ -35,6 +35,7 @@ public class TurnManager
             // 1) Hành động chủ động: Pay bail / Use card → rời Jail & MOVE theo tổng
             if (action == JailReleaseAction.PayBail)
             {
+<<<<<<< HEAD
                 if (player.TryDebit(GameRules.JailBailAmount))
                 {
                     _bus.Publish(new BailPaid(player.Id, GameRules.JailBailAmount));
@@ -43,6 +44,9 @@ public class TurnManager
                     Move(sum);
                 }
                 return (sum, isDouble);
+=======
+                return (sum, isDouble, d1, d2);
+>>>>>>> fbeb861 (C2)
             }
 
             if (action == JailReleaseAction.UseCard && player.TryConsumeJailCard())
@@ -82,6 +86,7 @@ public class TurnManager
             }
             return (sum, isDouble);
         }
+<<<<<<< HEAD
 
         // Không ở Jail: lăn & MOVE bình thường
         Move(sum);
@@ -95,6 +100,13 @@ public class TurnManager
             _bus.Publish(new PlayerMoved(player.Id, from, player.Position));
             _board.Tiles[player.Position].OnLand(ctx, player, sum);
         }
+=======
+        var from = player.Position;
+        player.Move(sum, _board.Size);
+        _bus.Publish(new PlayerMoved(player.Id, from, player.Position));
+        _board.Tiles[player.Position].OnLand(ctx, player, sum);
+        return (sum, isDouble, d1, d2);
+>>>>>>> fbeb861 (C2)
     }
 }
 

@@ -9,6 +9,7 @@ public class Player
     public int Position { get; set; }
     public int Cash { get; set; }
     public IPlayerState CurrentState { get; set; } = new NormalState();
+
     public IWallet Wallet { get; set; } 
     public int JailCard { get; private set; } = 0;
     public void GrantJailCard() => JailCard++;
@@ -32,7 +33,7 @@ public class Player
     }
     public bool TryConsumeJailCard()
     {
-        if (JailCard < 1) return false;
+        if (JailCard < 1) return false; 
         JailCard--;
         return true;
     } 

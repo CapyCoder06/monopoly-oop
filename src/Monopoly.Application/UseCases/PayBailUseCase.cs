@@ -1,6 +1,7 @@
 using Monopoly.Application.Ports;
 using Monopoly.Domain.Core;
 using Monopoly.Domain.State;
+using Monopoly.Application.DTO;
 
 namespace Monopoly.Application.UseCases;
 
@@ -17,12 +18,12 @@ public class PayBailUseCase
     {
         var snapshot = _repo.Load(slot) ?? throw new InvalidOperationException("No game found");
         var player = snapshot.Players.First(p => p.Id == playerID);
-        if (player.State is not InJailState)
+        if (player.CurrentState is not InJailState)
             throw new InvalidOperationException("Player is not in Jail");
         if (player.Cash < 50) // config số tiền bail
             throw new InvalidOperationException("Not enough money to pay bail");
         player.Pay(50);
-        player.State = new NormalState();
+        player.CurrentState = new NormalState();
         _repo.Save(snapshot);
         _ui.Publish(new ToastVM($"{player.Name} paid bail and left jail", "info"));
     }

@@ -1,4 +1,4 @@
-// tests/Monopoly.Domain.Tests/Moc3.cs
+﻿// tests/Monopoly.Domain.Tests/Moc3.cs
 using System;
 using System.Linq;
 using System.Collections.Generic;

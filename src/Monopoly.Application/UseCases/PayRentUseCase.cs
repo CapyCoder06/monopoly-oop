@@ -1,5 +1,6 @@
 using Monopoly.Domain.Core;
 using Monopoly.Application.Ports;
+using Monopoly.Domain.Tiles;
 
 namespace Monopoly.Application.UseCases;
 
@@ -17,13 +18,13 @@ public class PayRentUseCase
     public void Execute(string slot, int tileIndex, Guid payerId, int amount)
     {
         var game = _repo.Load(slot);
-        var tile = game.Tiles[tileIndex];
+        var property = game.board.Tiles[tileIndex] as PropertyTile ?? throw new InvalidOperationException("Tile is not a property.");
         var payer = game.Players.First(p => p.Id == payerId);
 
-        if (tile.OwnerId == null)
+        if (property.OwnerId == null)
             throw new InvalidOperationException("Tile has no owner.");
 
-        var owner = game.Players.First(p => p.Id == tile.OwnerId);
+        var owner = game.Players.First(p => p.Id == property.OwnerId);
 
         payer.Pay(amount);
         owner.Receive(amount);

@@ -1,6 +1,8 @@
 using Monopoly.Application.Ports;
 using Monopoly.Domain.Core;
 using Monopoly.Domain.Events;
+using Monopoly.Application.DTO;
+using Monopoly.Domain.State;
 
 namespace Monopoly.Application.UseCases;
 
@@ -17,12 +19,11 @@ public class UseCardUseCase
     {
         var snapshot = _repo.Load(slot) ?? throw new InvalidOperationException("No game found");
         var player = snapshot.Players.First(p => p.Id == playerId);
-        if (player.State is not InJailState jailState)
+        if (player.CurrentState is not IPlayerState State)
             throw new InvalidOperationException("Player is not in jail");
-        if (!player.HasJailCard)
+        if (!player.TryConsumeJailCard())
             throw new InvalidOperationException("Player does not have a Get Out of Jail Free card");
-        player.HasJailCard = false;
-        player.State = new NormalState();
+        player.CurrentState = new NormalState();
         _repo.Save(snapshot);
         _ui.Publish(new ToastVM($"{player.Name} used a Get Out of Jail Free card", "info"));
     }

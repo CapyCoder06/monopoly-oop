@@ -93,7 +93,29 @@ namespace Monopoly.Domain.Events
     {
         public DateTime OccurredAt { get; } = DateTime.UtcNow;
     }
-    public record RolledDoubleToLeave(Guid PlayerId, int sumdice) : IDomainEvent
+    public record RolledDoubleToLeave(Guid PlayerId, int Sumdice) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+
+    public record FundsChanged(Guid PlayerId, int Amount, string Reason, int NewCash) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public record CardDrawn(Guid TileId, Guid PlayerId, string CardTitle) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+
+    public record CardResolved(string Title, Guid PlayerId, int AfterCash, int AfterPosition, string Effect) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public record MovedByCard(Guid PlayerId, int From, int To, string Reason, bool PassedGo, int GoBonus) : IDomainEvent
+    {
+        public DateTime OccurredAt { get; } = DateTime.UtcNow;
+    }
+    public record GotOutOfJailCardGranted(Guid PlayerId, int CountInHand) : IDomainEvent
     {
         public DateTime OccurredAt { get; } = DateTime.UtcNow;
     }

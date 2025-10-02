@@ -28,18 +28,73 @@ public class TurnManager
     public (int sum, bool isDouble) RollDiceAndAdvance(Player player, GameContext ctx, JailReleaseAction action = JailReleaseAction.None)
     {
         var (d1, d2, sum, isDouble) = _dice.Roll();
-        if (player.CurrentState is IPlayerState state)
+
+        // Nếu đang ở JAIL: xử lý theo luật chuẩn
+        if (player.CurrentState is InJailState jail)
         {
-            if (state.OnRollDice(player, ctx, d1, d2, action))
+            // 1) Hành động chủ động: Pay bail / Use card → rời Jail & MOVE theo tổng
+            if (action == JailReleaseAction.PayBail)
             {
+                if (player.TryDebit(GameRules.JailBailAmount))
+                {
+                    _bus.Publish(new BailPaid(player.Id, GameRules.JailBailAmount));
+                    player.CurrentState = new NormalState();
+                    _bus.Publish(new LeftJail(player.Id, JailLeaveReason.BailPaid));
+                    Move(sum);
+                }
                 return (sum, isDouble);
             }
+
+            if (action == JailReleaseAction.UseCard && player.TryConsumeJailCard())
+            {
+                _bus.Publish(new UsedJailCard(player.Id));
+                player.CurrentState = new NormalState();
+                _bus.Publish(new LeftJail(player.Id, JailLeaveReason.UsedCard));
+                Move(sum);
+                return (sum, isDouble);
+            }
+
+            // 2) Không action: thử đổ đôi
+            if (isDouble)
+            {
+                _bus.Publish(new RolledDoubleToLeave(player.Id, d1 + d2));
+                player.CurrentState = new NormalState();
+                _bus.Publish(new LeftJail(player.Id, JailLeaveReason.RolledDouble));
+                Move(sum);
+                return (sum, isDouble);
+            }
+
+            // 3) Không đôi
+            if (jail.TurnsLeft > 1)
+            {
+                // Lượt 1–2: KHÔNG MOVE, chỉ giảm lượt
+                jail.Decrement();
+                return (sum, isDouble);
+            }
+
+            // 4) Lượt 3 không đôi: auto-bail rồi MOVE theo tổng
+            if (player.TryDebit(GameRules.JailBailAmount))
+            {
+                _bus.Publish(new BailPaid(player.Id, GameRules.JailBailAmount));
+                player.CurrentState = new NormalState();
+                _bus.Publish(new LeftJail(player.Id, JailLeaveReason.AfterThreeTurns));
+                Move(sum);
+            }
+            return (sum, isDouble);
         }
-        var from = player.Position;
-        player.Move(sum, _board.Size);
-        _bus.Publish(new PlayerMoved(player.Id, from, player.Position));
-        _board.Tiles[player.Position].OnLand(ctx, player, sum);
+
+        // Không ở Jail: lăn & MOVE bình thường
+        Move(sum);
         return (sum, isDouble);
+
+        // Helper local: di chuyển + publish + OnLand
+        void Move(int steps)
+        {
+            var from = player.Position;
+            player.Move(steps, _board.Size);
+            _bus.Publish(new PlayerMoved(player.Id, from, player.Position));
+            _board.Tiles[player.Position].OnLand(ctx, player, sum);
+        }
     }
 }
 

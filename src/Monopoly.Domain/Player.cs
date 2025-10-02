@@ -1,5 +1,5 @@
 using Monopoly.Domain.State;
-
+using Monopoly.Domain.Abstractions;
 namespace Monopoly.Domain.Core;
 
 public class Player
@@ -7,9 +7,12 @@ public class Player
     public Guid Id { get; } = Guid.NewGuid();
     public string Name { get; }
     public int Position { get; set; }
-    public int Cash { get; private set; }
+    public int Cash { get; set; }
     public IPlayerState CurrentState { get; set; } = new NormalState();
+    public IWallet Wallet { get; set; } 
     public int JailCard { get; private set; } = 0;
+    public void GrantJailCard() => JailCard++;
+
 
     public Player(string name, int startingCash = 1500)
     {

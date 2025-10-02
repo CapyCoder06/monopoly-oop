@@ -26,6 +26,14 @@ public class InJailState : IPlayerState
     {
         TurnsLeft = turns;
     }
+    /// <summary>
+        /// Giảm số lượt còn lại trong tù.
+    /// </summary>
+    public void Decrement()
+    {
+        if (TurnsLeft > 0)
+            TurnsLeft--;
+    }
     private void Leave(Player player, GameContext ctx, JailLeaveReason reason)
     {
         player.CurrentState = new NormalState();

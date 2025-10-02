@@ -8,7 +8,7 @@ namespace Monopoly.Domain.Tiles;
 
 public class GoToJailTile : Tile
 {
-    public int JailIndex;
+    public int JailIndex { get; }
     public GoToJailTile(int index, int jailIndex, string name = "Go to Jail", Guid? tileId = null) 
         : base(index, name, tileId ?? Guid.NewGuid()) {
         JailIndex = jailIndex;

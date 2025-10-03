@@ -17,9 +17,9 @@ public class BuyPropertyUseCase
 
     public void Execute(string slot,int tileIndex, Guid buyerId)
     {
-        var game = _repo.Load(slot);
-        var property = game.board.Tiles[tileIndex] as PropertyTile ?? throw new InvalidOperationException("Tile is not a property.");
-        var buyer = game.Players.First(p => p.Id == buyerId);
+        var snapshot = _repo.Load(slot);
+        var property = snapshot.board.Tiles[tileIndex] as PropertyTile ?? throw new InvalidOperationException("Tile is not a property.");
+        var buyer = snapshot.Players.First(p => p.Id == buyerId);
 
         if (property.OwnerId != null)
             throw new InvalidOperationException("Tile already owned.");
@@ -32,6 +32,6 @@ public class BuyPropertyUseCase
 
         _ui.Publish($"{buyer.Name} bought {property.Name} for {property.Price}$");
 
-        _repo.Save(game);
+        _repo.Save(snapshot);
     }
 }

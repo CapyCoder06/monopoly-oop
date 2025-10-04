@@ -8,7 +8,7 @@ public abstract class Card
 {
     public string Title { get; }
     public string Description { get; }
-    protected Card(string title, string description)
+    protected Card(string title, string description, Guid tileID)
     {
         Title = title;
         Description = description;

@@ -2,8 +2,6 @@ using Monopoly.Application.Ports;
 using Monopoly.Domain.Core;
 using Monopoly.Domain.Events;
 using Monopoly.Application.DTO;
-using Monopoly.Domain.State;
-using Monopoly.Domain.Abstractions;
 
 namespace Monopoly.Application.UseCases;
 

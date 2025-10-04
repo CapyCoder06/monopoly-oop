@@ -6,8 +6,8 @@ namespace Monopoly.Domain.Cards;
 
 public class ReceiveCard : Card {
     public int Amount { get;}
-    public ReceiveCard(string title, string description, int amount)
-        : base(title, description)
+    public ReceiveCard(string title, string description, int amount, Guid? tileId = null)
+        : base(title, description, tileId ?? Guid.NewGuid())
     {
         Amount = amount;
     }

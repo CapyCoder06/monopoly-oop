@@ -11,8 +11,8 @@ public class Player
     public IPlayerState CurrentState { get; set; } = new NormalState();
 
     public IWallet Wallet { get; set; } 
-    public int JailCard { get; private set; } = 0;
-    public void GrantJailCard() => JailCard++;
+    public int HasJailCard { get; private set; } = 0;
+    public void GrantJailCard() => HasJailCard++;
 
 
     public Player(string name, int startingCash = 1500)
@@ -33,8 +33,8 @@ public class Player
     }
     public bool TryConsumeJailCard()
     {
-        if (JailCard < 1) return false; 
-        JailCard--;
+        if (HasJailCard < 1) return false; 
+        HasJailCard--;
         return true;
     } 
 }

@@ -26,8 +26,9 @@ namespace Monopoly.Domain.Cards
             int? offset = null,
             NearestKind? kind = null,
             bool withGoBonusPolicy = true,
-            bool skipOnLandIfJail = true
-        ) : base(title, description)
+            bool skipOnLandIfJail = true,
+            Guid? tileId = null
+        ) : base(title, description, tileId ?? Guid.NewGuid())
         {
             Mode = mode;
             Index = index;

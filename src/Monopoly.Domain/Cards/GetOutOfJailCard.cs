@@ -10,8 +10,8 @@ namespace Monopoly.Domain.Cards
     /// </summary>
     public sealed class GetOutOfJailCard : Card
     {
-        public GetOutOfJailCard(string title, string description)
-            : base(title, description) { }
+        public GetOutOfJailCard(string title, string description, Guid? tileId = null)
+            : base(title, description, tileId ?? Guid.NewGuid()) { }
 
         public override void Resolve(GameContext ctx, IDomainEventBus bus, Player player)
         {
@@ -19,7 +19,7 @@ namespace Monopoly.Domain.Cards
             // 2) Phát event cấp thẻ
             bus.Publish(new GotOutOfJailCardGranted(
                 player.Id,
-                player.JailCard   // số lượng hiện có sau khi tăng
+                player.HasJailCard   // số lượng hiện có sau khi tăng
             ));
 
             // 3) Kết thúc: CardResolved (audit)
@@ -28,7 +28,7 @@ namespace Monopoly.Domain.Cards
                 player.Id,
                 player.Cash,
                 player.Position,
-                $"Granted Get Out of Jail (now {player.JailCard})"
+                $"Granted Get Out of Jail (now {player.HasJailCard})"
             ));
         }
     }

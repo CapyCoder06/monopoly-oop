@@ -16,11 +16,9 @@ public class EndTurnUseCase
 
     public void Execute(string slot)
     {
-        var snapshot = _repo.Load(slot);
-        if (snapshot is null)
-            throw new InvalidOperationException($"No game found in slot {slot}");
+        var snapshot = _repo.Load(slot) ?? throw new InvalidOperationException("No game found");
         var nextIndex = (snapshot.CurrentPlayerIndex + 1) % snapshot.Players.Count;
-        var newSnapshot = new GameSnapshot(Slot: slot, Players: snapshot.Players, CurrentPlayerIndex: nextIndex);
+        var newSnapshot = new GameSnapshot(Slot: slot, Players: snapshot.Players, CurrentPlayerIndex: nextIndex, wallet: snapshot.Wallet);
         _repo.Save(newSnapshot);
         var nextPlayer = snapshot.Players[nextIndex];
         _ui.Publish(new TurnEndedUiEvent(nextPlayer.Id));

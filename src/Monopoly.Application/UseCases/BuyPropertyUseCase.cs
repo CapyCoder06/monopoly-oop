@@ -1,4 +1,3 @@
-using Monopoly.Domain.Core;
 using Monopoly.Application.Ports;
 using Monopoly.Domain.Tiles;
 
@@ -17,7 +16,7 @@ public class BuyPropertyUseCase
 
     public void Execute(string slot,int tileIndex, Guid buyerId)
     {
-        var snapshot = _repo.Load(slot);
+        var snapshot = _repo.Load(slot) ?? throw new InvalidOperationException("No game found");
         var property = snapshot.board.Tiles[tileIndex] as PropertyTile ?? throw new InvalidOperationException("Tile is not a property.");
         var buyer = snapshot.Players.First(p => p.Id == buyerId);
 

@@ -25,9 +25,10 @@ public class NewGameUseCase
     private readonly IGameRepository _repo;
     private readonly IDomainEventBus _domainEventBus;
 
-    public NewGameUseCase(IGameRepository repo)
+    public NewGameUseCase(IGameRepository repo, IDomainEventBus domainEventBus)
     {
         _repo = repo;
+        _domainEventBus = domainEventBus;
     }
     public NewGameResponse Execute(NewGameRequest req)
     {

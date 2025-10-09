@@ -1,3 +1,4 @@
+/*
 using System;
 using Monopoly.Domain.Abstractions;
 using Monopoly.Domain.Core;
@@ -105,3 +106,4 @@ namespace Monopoly.Domain.Cards
         }
     }
 }
+*/

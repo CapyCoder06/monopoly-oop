@@ -9,9 +9,7 @@ public class GoTile : Tile
         : base(index, name, tileId ?? Guid.NewGuid())
     {    
     }
-
     public override void OnLand(GameContext ctx, Player player, int lastDiceSum)
     {
-        player.Receive(200);
     }
 }

@@ -5,7 +5,7 @@ public abstract class Tile
 {
     public int Index { get; }
     public string Name { get; }
-    public Guid TileId { get; } = Guid.NewGuid();
+    public Guid TileId { get; }
 
     protected Tile(int index, string name, Guid tileId)
     {

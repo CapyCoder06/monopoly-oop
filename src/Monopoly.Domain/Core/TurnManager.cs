@@ -90,7 +90,15 @@ public class TurnManager
         // Helper local: di chuyển + publish + OnLand
         void Move(int steps)
         {
+            int size = _board.Size;
             var from = player.Position;
+            int to = (from + steps) % size;
+            bool passedGo = steps > 0 && to < from;
+            if (passedGo)
+            {
+                player.Receive(200);
+                _bus.Publish(new FundsChanged(player.Id, +200, "PassedGO", player.Cash));
+            }
             player.Move(steps, _board.Size);
             _bus.Publish(new PlayerMoved(player.Id, from, player.Position));
             _board.Tiles[player.Position].OnLand(ctx, player, sum);

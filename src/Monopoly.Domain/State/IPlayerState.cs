@@ -12,8 +12,6 @@ public interface IPlayerState
     //Được gọi khi kết thúc toàn bộ lượt (sau khi di chuyển xong, hoặc sau khi đứng yên trong Jail)
     void OnEndTurn(Player p, GameContext ctx);
 }
-
-
 public class NormalState : IPlayerState
 {
     public bool OnRollDice(Player p, GameContext ctx, int dice1, int dice2, JailReleaseAction action) => true;

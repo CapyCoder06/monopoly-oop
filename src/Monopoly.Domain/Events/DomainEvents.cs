@@ -106,12 +106,7 @@ namespace Monopoly.Domain.Events
     {
         public DateTime OccurredAt { get; } = DateTime.UtcNow;
     }
-
     public record CardResolved(string Title, Guid PlayerId, int AfterCash, int AfterPosition, string Effect) : IDomainEvent
-    {
-        public DateTime OccurredAt { get; } = DateTime.UtcNow;
-    }
-    public record MovedByCard(Guid PlayerId, int From, int To, string Reason, bool PassedGo, int GoBonus) : IDomainEvent
     {
         public DateTime OccurredAt { get; } = DateTime.UtcNow;
     }

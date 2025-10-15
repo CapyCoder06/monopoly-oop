@@ -1,0 +1,173 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Project\\monopoly-oop\\MonopolyUnity\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1E778807-5708-F716-F405-54C55D1ACA93}|Monopoly.UnityAdapter.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\monopoly.unityadapter\\diceadapter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E778807-5708-F716-F405-54C55D1ACA93}|Monopoly.UnityAdapter.csproj|solutionrelative:assets\\monopoly.unityadapter\\diceadapter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\scripts\\models\\playertoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\models\\playertoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\scripts\\gamecore\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamecore\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFD9FFBC-56F5-0451-86FE-68D8663E40B8}|MonopolyCrossBridge.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\monopoly.crossbridge\\gamebridgeproxy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFD9FFBC-56F5-0451-86FE-68D8663E40B8}|MonopolyCrossBridge.csproj|solutionrelative:assets\\monopoly.crossbridge\\gamebridgeproxy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFD9FFBC-56F5-0451-86FE-68D8663E40B8}|MonopolyCrossBridge.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\monopoly.crossbridge\\igamebridge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFD9FFBC-56F5-0451-86FE-68D8663E40B8}|MonopolyCrossBridge.csproj|solutionrelative:assets\\monopoly.crossbridge\\igamebridge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\scripts\\gamecore\\dice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamecore\\dice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1E778807-5708-F716-F405-54C55D1ACA93}|Monopoly.UnityAdapter.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\monopoly.unityadapter\\unityuieventbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1E778807-5708-F716-F405-54C55D1ACA93}|Monopoly.UnityAdapter.csproj|solutionrelative:assets\\monopoly.unityadapter\\unityuieventbus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|D:\\Project\\monopoly-oop\\MonopolyUnity\\assets\\scripts\\models\\boardview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{626A1BB3-7AE7-E489-5F80-8A6D37D9D119}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\models\\boardview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFD9FFBC-56F5-0451-86FE-68D8663E40B8}|MonopolyCrossBridge.csproj|d:\\project\\monopoly-oop\\monopolyunity\\assets\\monopoly.crossbridge\\playerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CFD9FFBC-56F5-0451-86FE-68D8663E40B8}|MonopolyCrossBridge.csproj|solutionrelative:assets\\monopoly.crossbridge\\playerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PlayerDTO.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.CrossBridge\\PlayerDTO.cs",
+              "RelativeDocumentMoniker": "Assets\\Monopoly.CrossBridge\\PlayerDTO.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.CrossBridge\\PlayerDTO.cs",
+              "RelativeToolTip": "Assets\\Monopoly.CrossBridge\\PlayerDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:42:46.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UnityUiEventBus.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.UnityAdapter\\UnityUiEventBus.cs",
+              "RelativeDocumentMoniker": "Assets\\Monopoly.UnityAdapter\\UnityUiEventBus.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.UnityAdapter\\UnityUiEventBus.cs",
+              "RelativeToolTip": "Assets\\Monopoly.UnityAdapter\\UnityUiEventBus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:41:16.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DiceAdapter.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.UnityAdapter\\DiceAdapter.cs",
+              "RelativeDocumentMoniker": "Assets\\Monopoly.UnityAdapter\\DiceAdapter.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.UnityAdapter\\DiceAdapter.cs",
+              "RelativeToolTip": "Assets\\Monopoly.UnityAdapter\\DiceAdapter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:40:58.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IGameBridge.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.CrossBridge\\IGameBridge.cs",
+              "RelativeDocumentMoniker": "Assets\\Monopoly.CrossBridge\\IGameBridge.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.CrossBridge\\IGameBridge.cs",
+              "RelativeToolTip": "Assets\\Monopoly.CrossBridge\\IGameBridge.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:39:11.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GameBridgeProxy.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.CrossBridge\\GameBridgeProxy.cs",
+              "RelativeDocumentMoniker": "Assets\\Monopoly.CrossBridge\\GameBridgeProxy.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Monopoly.CrossBridge\\GameBridgeProxy.cs",
+              "RelativeToolTip": "Assets\\Monopoly.CrossBridge\\GameBridgeProxy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:39:02.062Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BoardView.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\Models\\BoardView.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Models\\BoardView.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\Models\\BoardView.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Models\\BoardView.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:38:01.319Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlayerToken.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\Models\\PlayerToken.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Models\\PlayerToken.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\Models\\PlayerToken.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Models\\PlayerToken.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:35:02.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Dice.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\GameCore\\Dice.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameCore\\Dice.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\GameCore\\Dice.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameCore\\Dice.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAqwDEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:34:57.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GameController.cs",
+              "DocumentMoniker": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\GameCore\\GameController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameCore\\GameController.cs",
+              "ToolTip": "D:\\Project\\monopoly-oop\\MonopolyUnity\\Assets\\Scripts\\GameCore\\GameController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameCore\\GameController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAUwEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T13:30:43.572Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

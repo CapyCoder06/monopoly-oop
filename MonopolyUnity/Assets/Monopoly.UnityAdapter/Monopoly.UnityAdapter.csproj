@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Monopoly.Application">
+      <HintPath>..\..\src\Monopoly.Application\bin\Release\net8.0\Monopoly.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Monopoly.Domain">
+      <HintPath>..\..\src\Monopoly.Domain\bin\Release\net8.0\Monopoly.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

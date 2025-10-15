@@ -205,5 +205,20 @@ namespace Monopoly.Domain.Factory
             var price = Require(t.Price, "price", "Utility", t.Index);
             return new UtilityTile(t.Index, name, price);
         }
+        public static Board CreateFromConfig()
+        {
+            // Đường dẫn tới file cấu hình trong thư mục Data
+            string configPath = Path.Combine(AppContext.BaseDirectory, "Data", "BoardConfig.json");
+
+            if (!File.Exists(configPath))
+                throw new FileNotFoundException($"Board config file not found at: {configPath}");
+
+            // Hai bộ bài rỗng (nếu sau này bạn muốn nạp thêm Card, có thể thay đổi)
+            var emptyChanceDeck = new Deck<Card>(new List<Card>());
+            var emptyCommunityDeck = new Deck<Card>(new List<Card>());
+
+            // Tạo Board từ file JSON
+            return LoadFromJson(configPath, emptyChanceDeck, emptyCommunityDeck, requireFullBoard: true);
+        }
     }
 }

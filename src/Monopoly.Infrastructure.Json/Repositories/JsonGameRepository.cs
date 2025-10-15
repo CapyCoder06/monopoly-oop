@@ -49,7 +49,7 @@ public class JsonGameRepository : IGameRepository
         if (snapshot is null)
             return null;
 
-        var newBoard = new Board(TileFactory.CreateFromConfig());
+        var newBoard = TileFactory.CreateFromConfig();
         var rebuilt = snapshot with { board = newBoard };
 
         return rebuilt;

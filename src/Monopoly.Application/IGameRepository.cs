@@ -15,7 +15,7 @@ public interface IGameRepository
 public record GameSnapshot(string Slot, IReadOnlyList<Player> Players, Board board, int CurrentPlayerIndex, Deck<Card> ChanceDeck, Deck<Card> CommunityChestDeck, IWallet Wallet)
 {
     public GameSnapshot(string Slot, IReadOnlyList<Player> Players, int CurrentPlayerIndex, IWallet wallet)
-    : this(Slot, Players, new Board(TileFactory.CreateFromConfig()), CurrentPlayerIndex, new Deck<Card>(new List<Card>()), new Deck<Card>(new List<Card>()), wallet)
+    : this(Slot, Players, TileFactory.CreateFromConfig(), CurrentPlayerIndex, new Deck<Card>(new List<Card>()), new Deck<Card>(new List<Card>()), wallet)
     { }
 }
 // Lưu thông tin game tại 1 thời điểm

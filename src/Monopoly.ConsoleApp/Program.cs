@@ -1,6 +1,7 @@
 ﻿using System;
 using Monopoly.Application.UseCases;       // NewGameUseCase, NewGameRequest
-using Monopoly.Application.Ports;         // IGameRepository
+using Monopoly.Application.Ports;
+using Monopoly.Domain.Events;         // IGameRepository
 
 namespace Monopoly.ConsoleApp;
 
@@ -11,7 +12,8 @@ internal static class Program
         Console.WriteLine("Monopoly Console Runner starting...");
 
         IGameRepository repo = new InMemoryGameRepository();
-        var useCase = new NewGameUseCase(repo);
+        IDomainEventBus domainEventBus = new InMemoryDomainEventBus();
+        var useCase = new NewGameUseCase(repo, domainEventBus);
 
         // NewGameRequest có required members: Slot, PlayerNames
         var req = new NewGameRequest

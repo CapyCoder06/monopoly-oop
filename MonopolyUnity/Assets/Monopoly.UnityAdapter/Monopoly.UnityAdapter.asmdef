@@ -1,0 +1,17 @@
+{
+    "name": "Monopoly.UnityAdapter",
+    "rootNamespace": "",
+    "references": [
+        "GUID:efe72685f74248d4aad974267017b917",
+        "GUID:5fdfde35d3eef2d4399f932dd16d3ae9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

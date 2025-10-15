@@ -12,9 +12,9 @@ public class GameController
     private readonly RollDiceUseCase _roll;
     private string _currentSlot;
 
-    public GameController(IGameRepository repo, IUiEventBus ui, TurnManager turnManager, IDomainEventBus domainEventBus)
+    public GameController(IGameRepository repo, IUiEventBus ui, TurnManager turnManager, IDomainEventBus domainEventBus, IDice dice)
     {
-        _roll = new RollDiceUseCase(repo, ui, turnManager, domainEventBus);
+        _roll = new RollDiceUseCase(repo, ui, turnManager, domainEventBus, dice);
     }
     public void SetSlot(string slot) => _currentSlot = slot;
     public void OnRollButtonClicked() => _roll.Execute(_currentSlot);

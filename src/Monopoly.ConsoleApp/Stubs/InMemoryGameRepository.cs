@@ -1,22 +1,21 @@
 using System.Collections.Concurrent;
-using Monopoly.Application.Ports; // đúng namespace của IGameRepository
+using Monopoly.Application.Ports; 
 using Monopoly.Domain.Core;
 
-namespace Monopoly.ConsoleApp;
-
-// In-memory repository cho Mốc 0
-public sealed class InMemoryGameRepository : IGameRepository
+namespace Monopoly.ConsoleApp
 {
-    // Key = Slot
-    private readonly ConcurrentDictionary<string, GameSnapshot> _store = new();
-
-    public void Save(GameSnapshot snapshot)
+    public sealed class InMemoryGameRepository : IGameRepository
     {
-        _store[snapshot.Slot] = snapshot;
-    }
+        private readonly ConcurrentDictionary<string, GameSnapshot> _store = new ConcurrentDictionary<string, GameSnapshot>();
 
-    public GameSnapshot? Load(string slot)
-    {
-        return _store.TryGetValue(slot, out var snap) ? snap : null;
+        public void Save(GameSnapshot snapshot)
+        {
+            _store[snapshot.Slot] = snapshot;
+        }
+
+        public GameSnapshot? Load(string slot)
+        {
+            return _store.TryGetValue(slot, out var snap) ? snap : null;
+        }
     }
 }

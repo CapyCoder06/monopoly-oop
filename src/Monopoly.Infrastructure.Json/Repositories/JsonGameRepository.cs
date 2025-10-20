@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Monopoly.Application.Ports;
-using Monopoly.Domain.Core;
 using Monopoly.Domain.Factory;
 
 namespace Monopoly.Infrastructure.Json.Repositories;
@@ -23,7 +22,7 @@ public class JsonGameRepository : IGameRepository
             PropertyNameCaseInsensitive = true,
             Converters =
             {
-                new JsonStringEnumConverter() 
+                new JsonStringEnumConverter()
             }
         };
     }
@@ -49,7 +48,7 @@ public class JsonGameRepository : IGameRepository
         if (snapshot is null)
             return null;
 
-        var newBoard = TileFactory.CreateFromConfig();
+        var newBoard = TileFactory.LoadFromJson();
         var rebuilt = snapshot with { board = newBoard };
 
         return rebuilt;

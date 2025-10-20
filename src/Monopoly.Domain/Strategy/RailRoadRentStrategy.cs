@@ -14,7 +14,7 @@ public class RailRoadRentStrategy : IRentStrategy
         }
         if (!r.OwnerId.HasValue)
         {
-            return 0; //chưa có ai mua
+            return 0; 
         }
         int ownedRailroads = ctx.CountOwnerRailroads(r.OwnerId.Value);
         return ownedRailroads switch

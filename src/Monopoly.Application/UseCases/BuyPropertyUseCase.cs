@@ -1,5 +1,9 @@
 using Monopoly.Application.Ports;
 using Monopoly.Domain.Tiles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 
 namespace Monopoly.Application.UseCases;
 
@@ -20,7 +24,7 @@ public class BuyPropertyUseCase
         var property = snapshot.board.Tiles[tileIndex] as PropertyTile ?? throw new InvalidOperationException("Tile is not a property.");
         var buyer = snapshot.Players.First(p => p.Id == buyerId);
 
-        if (property.OwnerId != null)
+        if (property.OwnerId.HasValue)
             throw new InvalidOperationException("Tile already owned.");
 
         if (buyer.Cash < property.Price)

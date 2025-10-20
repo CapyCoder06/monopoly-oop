@@ -1,59 +1,63 @@
-// Domain/Factory/TileFactory.cs
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Monopoly.Domain.Abstractions; // Tile (base)
-using Monopoly.Domain.Core;         // Board, Deck<Card>
-using Monopoly.Domain.Tiles;        // GoTile, PropertyTile, RailroadTile, UtilityTile, JailTile, GoToJailTile, ChanceTile, QuestionTile, FreeParkingTile, TaxTile
+using Monopoly.Domain.Abstractions; 
+using Monopoly.Domain.Core;         
+using Monopoly.Domain.Tiles;        
 
 namespace Monopoly.Domain.Factory
 {
     public static class TileFactory
     {
-        // =======================
-        // JSON DTOs
-        // =======================
         private sealed class BoardConfigDto
         {
-            [JsonPropertyName("size")]  public int Size { get; set; }
+            [JsonPropertyName("size")] public int Size { get; set; }
             [JsonPropertyName("tiles")] public List<TileDto> Tiles { get; set; } = new();
         }
 
         private sealed class TileDto
         {
-            [JsonPropertyName("index")]    public int Index { get; set; }
-            [JsonPropertyName("kind")]     public string Kind { get; set; } = "";
-            [JsonPropertyName("name")]     public string? Name { get; set; }
+            [JsonPropertyName("index")] public int Index { get; set; }
+            [JsonPropertyName("kind")] public string Kind { get; set; } = "";
+            [JsonPropertyName("name")] public string? Name { get; set; }
 
-            // Property
-            [JsonPropertyName("color")]    public string? Color { get; set; }
-            [JsonPropertyName("price")]    public int? Price { get; set; }
+            [JsonPropertyName("color")] public string? Color { get; set; }
+            [JsonPropertyName("price")] public int? Price { get; set; }
             [JsonPropertyName("baseRent")] public int? BaseRent { get; set; }
 
-            // Tax
-            [JsonPropertyName("amount")]   public int? Amount { get; set; }
-
-            // GoToJail
-            [JsonPropertyName("target")]   public int? Target { get; set; }
+            [JsonPropertyName("amount")] public int? Amount { get; set; }
+            [JsonPropertyName("target")] public int? Target { get; set; }
         }
 
-        // =======================
-        // Exception
-        // =======================
         public sealed class ValidationException : Exception
         {
             public ValidationException(string msg) : base(msg) { }
         }
 
-        // =========================================================
-        // API: Đọc JSON với deck → tạo đủ 40 ô (Chance & CommunityChest hoạt động)
-        // =========================================================
-        public static Board LoadFromJson(
-            string jsonPath,
-            Deck<Card> chanceDeck,
-            Deck<Card> communityChestDeck,
-            bool requireFullBoard = true)
+        public static Board LoadFromJsonString(string jsonContent, Deck<Card> chanceDeck, Deck<Card> communityDeck, bool requireFullBoard = true)
         {
-            var cfg = ParseConfig(jsonPath);
+            var cfg = JsonSerializer.Deserialize<BoardConfigDto>(jsonContent, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            }) ?? throw new ValidationException("Invalid JSON: cannot parse BoardConfig");
+
+            return LoadFromJson(cfg, chanceDeck, communityDeck, requireFullBoard);
+        }
+
+        public static Board LoadFromJson(string path, Deck<Card> chanceDeck, Deck<Card> communityDeck, bool requireFullBoard = true)
+        {
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"Board config not found: {path}");
+
+            var json = File.ReadAllText(path);
+            return LoadFromJsonString(json, chanceDeck, communityDeck, requireFullBoard);
+        }
+
+        private static Board LoadFromJson(BoardConfigDto cfg, Deck<Card> chanceDeck, Deck<Card> communityDeck, bool requireFullBoard)
+        {
             BasicValidate(cfg);
 
             var tiles = new Tile[cfg.Size];
@@ -65,24 +69,17 @@ namespace Monopoly.Domain.Factory
 
                 Tile created = kind switch
                 {
-                    // Core
-                    "Go"            => new GoTile(t.Index, name),
-                    "Jail"          => new JailTile(t.Index, name),
-                    "GoToJail"      => new GoToJailTile(t.Index, Require(t.Target, "target", kind, t.Index), name),
-                    "FreeParking"   => new FreeParkingTile(t.Index, name),
-                    "Tax"           => new TaxTile(t.Index, name, Require(t.Amount, "amount", kind, t.Index)),
-
-                    // Buyables
-                    "Property"      => CreateProperty(t, name),
-                    "Railroad"      => CreateRailroad(t, name),
-                    "Utility"       => CreateUtility(t, name),
-
-                    // Cards
-                    "Chance"        => new ChanceTile(t.Index, chanceDeck, name),
-                    "CommunityChest"=> new QuestionTile(t.Index, communityChestDeck, name),
-                    // Alias tương thích JSON cũ:
-                    "Question"      => new QuestionTile(t.Index, communityChestDeck, name),
-
+                    "Go" => new GoTile(t.Index, name),
+                    "Jail" => new JailTile(t.Index, name),
+                    "GoToJail" => new GoToJailTile(t.Index, Require(t.Target, "target", kind, t.Index), name),
+                    "FreeParking" => new FreeParkingTile(t.Index, name),
+                    "Tax" => new TaxTile(t.Index, name, Require(t.Amount, "amount", kind, t.Index)),
+                    "Property" => CreateProperty(t, name),
+                    "Railroad" => CreateRailroad(t, name),
+                    "Utility" => CreateUtility(t, name),
+                    "Chance" => new ChanceTile(t.Index, chanceDeck, name),
+                    "CommunityChest" => new QuestionTile(t.Index, communityDeck, name),
+                    "Question" => new QuestionTile(t.Index, communityDeck, name),
                     _ => throw new ValidationException($"Unknown kind '{kind}' at index {t.Index}")
                 };
 
@@ -96,28 +93,10 @@ namespace Monopoly.Domain.Factory
             return new Board(tiles.ToList());
         }
 
-        // =======================
-        // Helpers
-        // =======================
-        private static BoardConfigDto ParseConfig(string jsonPath)
-        {
-            if (!File.Exists(jsonPath))
-                throw new FileNotFoundException($"Board config not found: {jsonPath}");
-
-            var json = File.ReadAllText(jsonPath);
-            var cfg = JsonSerializer.Deserialize<BoardConfigDto>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return cfg ?? throw new ValidationException("Invalid JSON: cannot parse BoardConfig");
-        }
-
         private static void BasicValidate(BoardConfigDto cfg)
         {
             if (cfg.Size <= 0) throw new ValidationException("size must be > 0");
 
-            // index in range + unique
             var seen = new HashSet<int>();
             foreach (var t in cfg.Tiles)
             {
@@ -127,30 +106,25 @@ namespace Monopoly.Domain.Factory
                     throw new ValidationException($"duplicate index {t.Index}");
             }
 
-            // Exactly 1 Go / Jail / GoToJail
-            int goCnt   = cfg.Tiles.Count(x => x.Kind.Equals("Go", StringComparison.OrdinalIgnoreCase));
+            int goCnt = cfg.Tiles.Count(x => x.Kind.Equals("Go", StringComparison.OrdinalIgnoreCase));
             int jailCnt = cfg.Tiles.Count(x => x.Kind.Equals("Jail", StringComparison.OrdinalIgnoreCase));
-            int g2jCnt  = cfg.Tiles.Count(x => x.Kind.Equals("GoToJail", StringComparison.OrdinalIgnoreCase));
-            if (goCnt != 1)   throw new ValidationException($"Go tiles = {goCnt}, expected 1");
+            int g2jCnt = cfg.Tiles.Count(x => x.Kind.Equals("GoToJail", StringComparison.OrdinalIgnoreCase));
+            if (goCnt != 1) throw new ValidationException($"Go tiles = {goCnt}, expected 1");
             if (jailCnt != 1) throw new ValidationException($"Jail tiles = {jailCnt}, expected 1");
-            if (g2jCnt != 1)  throw new ValidationException($"GoToJail tiles = {g2jCnt}, expected 1");
+            if (g2jCnt != 1) throw new ValidationException($"GoToJail tiles = {g2jCnt}, expected 1");
 
-            // Property fields
             foreach (var p in cfg.Tiles.Where(x => x.Kind.Equals("Property", StringComparison.OrdinalIgnoreCase)))
             {
                 if (string.IsNullOrWhiteSpace(p.Color))
                     throw new ValidationException($"Property at index {p.Index} missing 'color'");
-
                 if (!ColorGroupExtensions.TryParse(p.Color, out _))
                     throw new ValidationException($"Property at index {p.Index} invalid color '{p.Color}'");
-
-                if (p.Price    is null || p.Price    <= 0)
+                if (p.Price is null || p.Price <= 0)
                     throw new ValidationException($"Property at index {p.Index} must have positive 'price'");
-                if (p.BaseRent is null || p.BaseRent <  0)
+                if (p.BaseRent is null || p.BaseRent < 0)
                     throw new ValidationException($"Property at index {p.Index} must have non-negative 'baseRent'");
             }
 
-            // Tax / Railroad / Utility minimal fields
             foreach (var tax in cfg.Tiles.Where(x => x.Kind.Equals("Tax", StringComparison.OrdinalIgnoreCase)))
                 if (tax.Amount is null || tax.Amount < 0)
                     throw new ValidationException($"Tax at index {tax.Index} must have non-negative 'amount'");
@@ -164,7 +138,6 @@ namespace Monopoly.Domain.Factory
 
         private static void PostValidate(BoardConfigDto cfg, Tile[] tiles, bool requireFullBoard)
         {
-            // Đủ 0..size-1
             if (requireFullBoard)
             {
                 for (int i = 0; i < cfg.Size; i++)
@@ -172,9 +145,8 @@ namespace Monopoly.Domain.Factory
                         throw new ValidationException($"Missing tile for index {i}");
             }
 
-            // GoToJail.target == Jail.index
             var jailIdx = cfg.Tiles.FirstOrDefault(x => x.Kind.Equals("Jail", StringComparison.OrdinalIgnoreCase))?.Index;
-            var g2j     = cfg.Tiles.FirstOrDefault(x => x.Kind.Equals("GoToJail", StringComparison.OrdinalIgnoreCase));
+            var g2j = cfg.Tiles.FirstOrDefault(x => x.Kind.Equals("GoToJail", StringComparison.OrdinalIgnoreCase));
             if (jailIdx is int jIdx && g2j?.Target is int tgt && tgt != jIdx)
                 throw new ValidationException($"GoToJail.target ({tgt}) must equal Jail.index ({jIdx})");
         }
@@ -187,8 +159,8 @@ namespace Monopoly.Domain.Factory
             if (!ColorGroupExtensions.TryParse(t.Color, out var g))
                 throw new ValidationException($"Property[{t.Index}] invalid color '{t.Color}'");
 
-            var color    = g.ToPropertyColor();
-            var price    = Require(t.Price,    "price",    "Property", t.Index);
+            var color = g.ToPropertyColor();
+            var price = Require(t.Price, "price", "Property", t.Index);
             var baseRent = Require(t.BaseRent, "baseRent", "Property", t.Index);
 
             return new PropertyTile(t.Index, name, color, price, baseRent);
@@ -205,20 +177,12 @@ namespace Monopoly.Domain.Factory
             var price = Require(t.Price, "price", "Utility", t.Index);
             return new UtilityTile(t.Index, name, price);
         }
-        public static Board CreateFromConfig()
+        public static Board LoadFromJson()
         {
-            // Đường dẫn tới file cấu hình trong thư mục Data
-            string configPath = Path.Combine(AppContext.BaseDirectory, "Data", "BoardConfig.json");
-
-            if (!File.Exists(configPath))
-                throw new FileNotFoundException($"Board config file not found at: {configPath}");
-
-            // Hai bộ bài rỗng (nếu sau này bạn muốn nạp thêm Card, có thể thay đổi)
-            var emptyChanceDeck = new Deck<Card>(new List<Card>());
-            var emptyCommunityDeck = new Deck<Card>(new List<Card>());
-
-            // Tạo Board từ file JSON
-            return LoadFromJson(configPath, emptyChanceDeck, emptyCommunityDeck, requireFullBoard: true);
+            var path = Path.Combine(AppContext.BaseDirectory, "Configs", "board.json");
+            var chanceDeck = new Deck<Card>(new List<Card>());
+            var communityDeck = new Deck<Card>(new List<Card>());
+            return LoadFromJson(path, chanceDeck, communityDeck);
         }
     }
 }

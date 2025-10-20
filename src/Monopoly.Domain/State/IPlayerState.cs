@@ -7,9 +7,7 @@ public enum JailReleaseAction { None, PayBail, UseCard }
 
 public interface IPlayerState
 {
-    //Được gọi ngay khi bắt đầu lượt (sau khi tung xúc xắc xong nhưng trước khi di chuyển)
     bool OnRollDice(Player p, GameContext ctx, int d1, int d2, JailReleaseAction action);
-    //Được gọi khi kết thúc toàn bộ lượt (sau khi di chuyển xong, hoặc sau khi đứng yên trong Jail)
     void OnEndTurn(Player p, GameContext ctx);
 }
 public class NormalState : IPlayerState
@@ -24,9 +22,6 @@ public class InJailState : IPlayerState
     {
         TurnsLeft = turns;
     }
-    /// <summary>
-        /// Giảm số lượt còn lại trong tù.
-    /// </summary>
     public void Decrement()
     {
         if (TurnsLeft > 0)

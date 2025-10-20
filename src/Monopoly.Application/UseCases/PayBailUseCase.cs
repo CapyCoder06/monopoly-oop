@@ -19,7 +19,7 @@ public class PayBailUseCase
         var player = snapshot.Players.First(p => p.Id == playerID);
         if (player.CurrentState is not InJailState)
             throw new InvalidOperationException("Player is not in Jail");
-        if (player.Cash < 50) // config số tiền bail
+        if (player.Cash < 50) 
             throw new InvalidOperationException("Not enough money to pay bail");
         player.Pay(50);
         player.CurrentState = new NormalState();

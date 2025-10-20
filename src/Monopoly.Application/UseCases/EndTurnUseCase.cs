@@ -1,6 +1,10 @@
 using Monopoly.Application.Ports;
 using Monopoly.Application.DTO;
 using Monopoly.Domain.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
 
 namespace Monopoly.Application.UseCases;
 
@@ -18,8 +22,17 @@ public class EndTurnUseCase
     {
         var snapshot = _repo.Load(slot) ?? throw new InvalidOperationException("No game found");
         var nextIndex = (snapshot.CurrentPlayerIndex + 1) % snapshot.Players.Count;
-        var newSnapshot = new GameSnapshot(Slot: slot, Players: snapshot.Players, CurrentPlayerIndex: nextIndex, wallet: snapshot.Wallet);
+
+        var newSnapshot = GameSnapshotFactory.CreateDefault(
+            slot,
+            snapshot.Players,
+            nextIndex,
+            snapshot.Wallet,
+            snapshot.board
+        );
+
         _repo.Save(newSnapshot);
+
         var nextPlayer = snapshot.Players[nextIndex];
         _ui.Publish(new TurnEndedUiEvent(nextPlayer.Id));
     }

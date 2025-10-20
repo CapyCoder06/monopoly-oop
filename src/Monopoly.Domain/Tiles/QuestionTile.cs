@@ -1,6 +1,8 @@
 using Monopoly.Domain.Core;
 using Monopoly.Domain.Events;
 using Monopoly.Domain.Abstractions;
+using System;
+
 
 namespace Monopoly.Domain.Tiles
 {
@@ -16,17 +18,14 @@ namespace Monopoly.Domain.Tiles
 
         public override void OnLand(GameContext ctx, Player player, int lastDiceSum)
         {
-            // 1. Bốc thẻ
             var card = _deck.Draw();
 
-            // 2. Event: CardDrawn
             ctx.Bus.Publish(new CardDrawn(
                 this.TileId,
                 player.Id,
                 card.Title
             ));
 
-            // 3. Resolve thẻ
             card.Resolve(ctx, ctx.Bus, player);
         }
     }

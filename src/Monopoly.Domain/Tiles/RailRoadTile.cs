@@ -2,11 +2,14 @@ using Monopoly.Domain.Abstractions;
 using Monopoly.Domain.Core;
 using Monopoly.Domain.Events;
 using Monopoly.Domain.Strategy;
+using System;
+
+
 
 namespace Monopoly.Domain.Tiles;
 public class RailroadTile : Tile
 {
-    public int BaseRent { get; } //readonly, vì giá không nên đổi giá trị <=> no set
+    public int BaseRent { get; } 
     public Guid? OwnerId { get; set; }
     public int Price { get;}
     public IRentStrategy rentStrategy;

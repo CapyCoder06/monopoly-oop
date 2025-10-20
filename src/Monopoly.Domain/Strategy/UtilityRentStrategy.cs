@@ -14,9 +14,8 @@ public class UtilityRentStrategy : IRentStrategy
         }
         if (!u.OwnerId.HasValue)
         {
-            return 0; //chưa có ai mua
+            return 0; 
         }
-        //kiểm tra chủ sở hữu có sở hữu cả 2 tiện ích không
         int utilityCount = ctx.CountOwnerUtilities(u.OwnerId.Value);
         if (utilityCount == 2)
         {

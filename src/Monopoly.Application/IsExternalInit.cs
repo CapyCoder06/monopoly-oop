@@ -1,5 +1,4 @@
-// File: IsExternalInit.cs
-// Dành cho build netstandard2.1 — để hỗ trợ record/init/required property
+
 
 #if NETSTANDARD2_1
 namespace System.Runtime.CompilerServices

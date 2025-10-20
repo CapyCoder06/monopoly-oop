@@ -1,6 +1,9 @@
 using Monopoly.Domain.Abstractions;
 using Monopoly.Domain.Core;
 using Monopoly.Domain.Events;
+using System;
+
+
 
 namespace Monopoly.Domain.Tiles
 {
@@ -16,7 +19,6 @@ namespace Monopoly.Domain.Tiles
 
         public override void OnLand(GameContext ctx, Player player, int lastDiceSum)
         {
-            // Thu thuế: trừ tiền người chơi
             ctx.Bus.Publish(new FundsChanged(player.Id, -Amount, $"Tax: {Name}", player.Cash));
         }
     }

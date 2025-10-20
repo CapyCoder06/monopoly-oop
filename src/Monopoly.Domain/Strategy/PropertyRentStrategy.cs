@@ -18,7 +18,7 @@ public class PropertyRentStrategy : IRentStrategy
         }
         if (!p.OwnerId.HasValue)
         {
-            return 0; //chưa có ai mua
+            return 0;
         }
         bool hasFullSet = ctx.OwnerHasFullColorSet(p.OwnerId.Value, p.Color);
         if (hasFullSet)

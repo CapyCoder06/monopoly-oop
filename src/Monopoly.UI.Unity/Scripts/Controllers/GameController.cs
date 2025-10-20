@@ -8,7 +8,6 @@ namespace Monopoly.UI.Unity.Scripts.Controllers;
 
 public class GameController
 {
-    // readonly: file chỉ xuất dữ liệu, không nhập.
     private readonly RollDiceUseCase _roll;
     private string _currentSlot;
 
